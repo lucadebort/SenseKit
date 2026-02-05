@@ -1,0 +1,26 @@
+{
+  "name": "@sensekit/shared-ui",
+  "version": "1.0.0",
+  "description": "Shared UI components for SenseKit tools",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "ui",
+    "components",
+    "etnograph",
+    "react"
+  ],
+  "author": "Luca De Bortoli",
+  "license": "MIT"
+}

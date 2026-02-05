@@ -1,0 +1,5 @@
+{
+  "name": "StakeMap",
+  "description": "A visual interactive tool for mapping stakeholder centrality and relationships using a concentric bullseye model. Designed for qualitative interviews to capture perception data.",
+  "requestFramePermissions": []
+}

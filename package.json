@@ -1,0 +1,18 @@
+{
+  "name": "sensekit",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:stake": "pnpm --filter stake-mapping dev",
+    "dev:semdiff": "pnpm --filter semantic-differential dev",
+    "build:stake": "pnpm --filter stake-mapping build",
+    "build:semdiff": "pnpm --filter semantic-differential build",
+    "build:all": "pnpm -r build"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  }
+}
