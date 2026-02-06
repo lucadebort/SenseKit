@@ -18,12 +18,14 @@ interface ProjectListProps {
 }
 
 const brandIcon = (
-  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 6h16M4 12h16M4 18h16" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
-    <circle cx="8" cy="6" r="2" fill="#059669"/>
-    <circle cx="16" cy="12" r="2" fill="#059669"/>
-    <circle cx="10" cy="18" r="2" fill="#059669"/>
-  </svg>
+  <div className="w-8 h-8 bg-card rounded-full flex items-center justify-center shadow-sm border border-border">
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+      <circle cx="8" cy="6" r="2" fill="#059669"/>
+      <circle cx="16" cy="12" r="2" fill="#059669"/>
+      <circle cx="10" cy="18" r="2" fill="#059669"/>
+    </svg>
+  </div>
 );
 
 const gridIcon = (
@@ -215,7 +217,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
   );
 
   return (
-    <div className="min-h-screen bg-background pb-20 pt-14">
+    <div className="min-h-screen bg-background pb-20">
       <NavBar
         brand={{ name: 'SemDiff', icon: brandIcon }}
         actions={logoutButton}
@@ -232,7 +234,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
       />
 
       {/* Content Header */}
-      <div className="max-w-7xl mx-auto px-6 pt-6">
+      <div className="max-w-7xl mx-auto px-6 pt-20">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div className="max-w-3xl">
             <h1 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">I Tuoi Progetti</h1>
@@ -241,7 +243,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
             </p>
           </div>
 
-          <Button onClick={openCreateModal} className="w-full md:w-auto shrink-0">
+          <Button onClick={openCreateModal} className="w-full md:w-auto shrink-0" size="lg">
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
@@ -257,7 +259,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
               onChange={(e) => setSearchQuery(e.target.value)}
               onClear={() => setSearchQuery('')}
               placeholder="Cerca progetti..."
-              className="max-w-md"
+              className="w-full max-w-md"
             />
             <span className="text-xs font-medium text-muted-foreground whitespace-nowrap hidden sm:inline-block">
               {processedProjects.length} {processedProjects.length === 1 ? 'progetto' : 'progetti'}
@@ -273,27 +275,8 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
             ]}
           />
         </div>
-      </div>
 
-      {/* Project Content */}
-      <div className="max-w-7xl mx-auto px-6">
-        {processedProjects.length === 0 && !searchQuery ? (
-          <Card className="mt-8 border-dashed">
-            <EmptyState
-              icon="📊"
-              title="Nessun progetto"
-              description="Crea il tuo primo progetto per iniziare."
-            />
-          </Card>
-        ) : processedProjects.length === 0 ? (
-          <Card className="mt-8 border-dashed">
-            <EmptyState
-              icon="🔍"
-              title="Nessun risultato"
-              description="Prova a modificare i criteri di ricerca."
-            />
-          </Card>
-        ) : viewMode === 'grid' ? (
+        {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {processedProjects.map(project => (
               <Card
@@ -321,9 +304,9 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
                   </p>
 
                   <div className="mb-4">
-                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide block mb-2">
+                    <Label size="xs" className="mb-2">
                       {project.config.semanticPairs.length} Differenziali Semantici
-                    </span>
+                    </Label>
                     <div className="flex flex-wrap gap-y-1 gap-x-3">
                       {project.config.semanticPairs.slice(0, 3).map(pair => (
                         <div key={pair.id} className="flex items-center gap-1.5 min-w-0">
@@ -338,7 +321,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
 
                   <div className="mt-auto border-t border-border pt-4 flex items-center justify-between">
                     <div className="flex flex-col">
-                      <span className="text-[10px] text-muted-foreground uppercase tracking-wide font-bold">Scala</span>
+                      <Label size="xs">Scala</Label>
                       <span className="text-sm font-bold text-foreground">{project.config.scale.points} punti</span>
                     </div>
                     <div className="flex gap-2">
@@ -372,15 +355,15 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
           </div>
         ) : (
           <Card className="overflow-hidden overflow-x-auto">
-            <Table className="min-w-[600px] md:min-w-full">
+            <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="px-4 md:px-6">Progetto</TableHead>
-                  <TableHead className="px-6">Descrizione</TableHead>
-                  <TableHead className="px-6">Creato</TableHead>
-                  <TableHead className="px-2 md:px-6 text-center">Coppie</TableHead>
-                  <TableHead className="px-4 md:px-6 text-center">Scala</TableHead>
-                  <TableHead className="px-4 md:px-6"></TableHead>
+                  <TableHead>Progetto</TableHead>
+                  <TableHead>Descrizione</TableHead>
+                  <TableHead>Creato</TableHead>
+                  <TableHead className="text-center">Coppie</TableHead>
+                  <TableHead className="text-center">Scala</TableHead>
+                  <TableHead />
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -390,7 +373,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
                     onClick={() => onSelectProject(project)}
                     className="cursor-pointer group"
                   >
-                    <TableCell className="px-4 md:px-6">
+                    <TableCell>
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors overflow-hidden shrink-0">
                           {project.icon || '📊'}
@@ -398,19 +381,19 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
                         <span className="font-bold text-foreground text-sm truncate max-w-[120px] sm:max-w-none">{project.name}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="px-6">
+                    <TableCell>
                       <p className="text-xs text-muted-foreground truncate max-w-xs">{project.description || '-'}</p>
                     </TableCell>
-                    <TableCell className="px-6 text-xs text-muted-foreground font-mono">
+                    <TableCell className="text-xs text-muted-foreground font-mono">
                       {formatDate(project.createdAt)}
                     </TableCell>
-                    <TableCell className="px-2 md:px-6 text-center">
+                    <TableCell className="text-center">
                       <span className="font-bold text-foreground text-sm">{project.config.semanticPairs.length}</span>
                     </TableCell>
-                    <TableCell className="px-4 md:px-6 text-center">
+                    <TableCell className="text-center">
                       <span className="text-xs text-muted-foreground">{project.config.scale.points}pt {project.config.scale.mode === 'discrete' ? 'D' : 'C'}</span>
                     </TableCell>
-                    <TableCell className="px-4 md:px-6 text-right">
+                    <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-1">
                         <Button
                           variant="ghost"
@@ -442,6 +425,15 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
               </TableBody>
             </Table>
           </Card>
+        )}
+
+        {processedProjects.length === 0 && (
+          <EmptyState
+            icon={searchQuery ? '🔍' : '📊'}
+            title={searchQuery ? 'Nessun risultato' : 'Nessun progetto'}
+            description={searchQuery ? 'Prova a modificare i criteri di ricerca.' : 'Crea il tuo primo progetto per iniziare.'}
+            className="mt-8 bg-background border border-dashed border-border rounded-xl"
+          />
         )}
       </div>
 

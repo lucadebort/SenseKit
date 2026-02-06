@@ -354,7 +354,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
       <NavBar
         brand={{ name: 'StakeMap', icon: brandIcon }}
         actions={
-          <Button variant="ghost" size="sm" onClick={() => setShowLogoutConfirm(true)} className="text-xs font-bold text-muted-foreground hover:text-destructive uppercase tracking-wider">
+          <Button variant="ghost" size="sm" onClick={() => setShowLogoutConfirm(true)} className="text-xs font-medium text-muted-foreground hover:text-destructive uppercase tracking-wider">
             Logout
           </Button>
         }
@@ -794,7 +794,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
         {/* Header Content */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div className="max-w-3xl">
-                <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Your Projects</h1>
+                <h1 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">Your Projects</h1>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                     Manage your research projects, create new stakeholder maps, and track the progress of ongoing interviews.
                     Select a project to access the dashboard and analysis tools.
@@ -825,7 +825,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
                     onClear={() => setSearchQuery('')}
                     className="w-full max-w-md"
                 />
-                <span className="text-xs font-bold text-muted-foreground whitespace-nowrap hidden sm:inline-block">
+                <span className="text-xs font-medium text-muted-foreground whitespace-nowrap hidden sm:inline-block">
                     {processedProjects.length} {processedProjects.length === 1 ? 'project' : 'projects'}
                 </span>
             </div>
