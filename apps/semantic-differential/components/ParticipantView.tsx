@@ -135,7 +135,7 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-foreground mb-2">Grazie!</h1>
+        <h1 className="text-2xl font-semibold text-foreground mb-2">Grazie!</h1>
         <p className="text-muted-foreground text-sm max-w-sm mx-auto leading-relaxed">
           Le tue risposte sono state registrate con successo.
         </p>
@@ -147,14 +147,14 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
   if (showInstructions && instructions) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
-        <div className="bg-card rounded-2xl max-w-lg w-full p-8 shadow-sm border border-border/50">
+        <div className="bg-card rounded-lg max-w-lg w-full p-8 border border-border">
           <div className="text-center mb-6">
             <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h1 className="text-xl font-bold text-foreground mb-2">Istruzioni</h1>
+            <h1 className="text-xl font-semibold text-foreground mb-2">Istruzioni</h1>
           </div>
 
           <div className="prose prose-sm prose-slate max-w-none mb-6">
@@ -186,7 +186,7 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
 
       {/* Content */}
       <div className="flex-1 flex items-center justify-center p-6">
-        <div className="bg-card rounded-2xl max-w-2xl w-full p-8 shadow-sm border border-border/50">
+        <div className="bg-card rounded-lg max-w-2xl w-full p-8 border border-border">
           {currentPair && (
             <div className="space-y-8">
               {/* Main question (if provided) */}

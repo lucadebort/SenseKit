@@ -8,6 +8,7 @@ import {
   Footer, NavBar, Button, Input, Textarea, Label, SearchInput, ToggleGroup,
   Card, CardContent, Alert, ConfirmDialog, EmptyState, LoadingScreen,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell,
+  Dialog, DialogContent, DialogHeader, DialogTitle,
   formatDate,
 } from '@sensekit/shared-ui';
 
@@ -208,7 +209,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
   }
 
   const logoutButton = (
-    <Button variant="ghost" size="sm" onClick={() => setShowLogoutConfirm(true)} className="text-xs font-bold text-muted-foreground hover:text-destructive uppercase tracking-wider">
+    <Button variant="ghost" size="sm" onClick={() => setShowLogoutConfirm(true)} className="text-xs font-medium text-muted-foreground hover:text-destructive uppercase tracking-wider">
       Logout
     </Button>
   );
@@ -234,7 +235,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
       <div className="max-w-7xl mx-auto px-6 pt-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div className="max-w-3xl">
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-3">I Tuoi Progetti</h1>
+            <h1 className="text-2xl md:text-3xl font-semibold text-foreground mb-3">I Tuoi Progetti</h1>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Gestisci le tue ricerche sui differenziali semantici, crea nuovi questionari e monitora l'avanzamento delle interviste.
             </p>
@@ -258,7 +259,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
               placeholder="Cerca progetti..."
               className="max-w-md"
             />
-            <span className="text-xs font-bold text-muted-foreground whitespace-nowrap hidden sm:inline-block">
+            <span className="text-xs font-medium text-muted-foreground whitespace-nowrap hidden sm:inline-block">
               {processedProjects.length} {processedProjects.length === 1 ? 'progetto' : 'progetti'}
             </span>
           </div>
@@ -446,17 +447,16 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
 
       <Footer appName="SemDiff" appDescription="a semantic differential tool" />
 
-      {/* Create/Edit Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-card rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border">
-            <div className="p-6 border-b border-border">
-              <h2 className="text-xl font-bold text-foreground">
-                {editingProject ? 'Modifica Progetto' : 'Nuovo Progetto'}
-              </h2>
-            </div>
+      {/* Create/Edit Dialog */}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editingProject ? 'Modifica Progetto' : 'Nuovo Progetto'}
+            </DialogTitle>
+          </DialogHeader>
 
-            <div className="p-6 space-y-6">
+            <div className="space-y-6">
               {/* Basic Info */}
               <div className="space-y-4">
                 <div>
@@ -494,7 +494,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
 
               {/* Scale Config */}
               <div className="space-y-4">
-                <h3 className="font-bold text-foreground">Configurazione Scala</h3>
+                <h3 className="font-semibold text-foreground">Configurazione Scala</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label size="xs" className="mb-1">Punti Scala</Label>
@@ -554,7 +554,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
               {/* Semantic Pairs */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-foreground">Differenziali Semantici</h3>
+                  <h3 className="font-semibold text-foreground">Differenziali Semantici</h3>
                   <Button variant="ghost" size="sm" onClick={addSemanticPair} className="text-primary">
                     + Aggiungi Coppia
                   </Button>
@@ -612,7 +612,7 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
               )}
             </div>
 
-            <div className="p-6 border-t border-border flex justify-end gap-3">
+            <div className="flex justify-end gap-3 pt-4">
               <Button variant="secondary" onClick={() => setShowModal(false)}>
                 Annulla
               </Button>
@@ -620,43 +620,35 @@ export const ProjectList: React.FC<ProjectListProps> = ({ onSelectProject, onLog
                 Salva
               </Button>
             </div>
-          </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
 
-      {/* Suggestions Modal */}
-      {showSuggestions && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-card rounded-xl max-w-md w-full max-h-[80vh] overflow-y-auto border border-border">
-            <div className="p-4 border-b border-border flex items-center justify-between">
-              <h3 className="font-bold text-foreground">Suggerimenti</h3>
-              <button onClick={() => setShowSuggestions(false)} className="text-muted-foreground hover:text-foreground">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+      {/* Suggestions Dialog */}
+      <Dialog open={showSuggestions} onOpenChange={setShowSuggestions}>
+        <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Suggerimenti</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2">
+            {COMMON_SEMANTIC_PAIRS.map((pair, idx) => (
+              <button
+                key={idx}
+                onClick={() => applySuggestion(pair.left, pair.right, pair.category)}
+                className="w-full text-left p-3 rounded-lg hover:bg-muted/50 transition-colors border border-border"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">
+                    {pair.left} &#8596; {pair.right}
+                  </span>
+                  {pair.category && (
+                    <span className="text-xs text-muted-foreground">{pair.category}</span>
+                  )}
+                </div>
               </button>
-            </div>
-            <div className="p-4 space-y-2">
-              {COMMON_SEMANTIC_PAIRS.map((pair, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => applySuggestion(pair.left, pair.right, pair.category)}
-                  className="w-full text-left p-3 rounded-lg hover:bg-muted/50 transition-colors border border-border"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-foreground">
-                      {pair.left} &#8596; {pair.right}
-                    </span>
-                    {pair.category && (
-                      <span className="text-xs text-muted-foreground">{pair.category}</span>
-                    )}
-                  </div>
-                </button>
-              ))}
-            </div>
+            ))}
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
 
       {/* Delete Confirmation */}
       <ConfirmDialog

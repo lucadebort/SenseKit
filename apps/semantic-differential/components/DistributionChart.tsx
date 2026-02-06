@@ -45,7 +45,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
   const stdRight = Math.min(100, ((stats.mean + stats.stdDev + 50) / 100) * 100);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 p-5">
+    <div className="bg-card rounded-lg border border-border p-5">
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1">
@@ -53,16 +53,16 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
             <span className="font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
               {pair.leftTerm}
             </span>
-            <span className="text-slate-400">&#8596;</span>
+            <span className="text-muted-foreground/70">&#8596;</span>
             <span className="font-medium text-blue-700 bg-blue-50 px-2 py-0.5 rounded">
               {pair.rightTerm}
             </span>
           </div>
           {pair.category && (
-            <span className="text-xs text-slate-400 mt-1 block">{pair.category}</span>
+            <span className="text-xs text-muted-foreground/70 mt-1 block">{pair.category}</span>
           )}
         </div>
-        <div className="text-right text-xs text-slate-500">
+        <div className="text-right text-xs text-muted-foreground">
           <div>N = {stats.count}</div>
         </div>
       </div>
@@ -81,7 +81,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
 
         {/* Standard deviation range */}
         <div
-          className="absolute top-0 bottom-0 bg-slate-300/30 rounded"
+          className="absolute top-0 bottom-0 bg-muted-foreground/15 rounded"
           style={{
             left: `${stdLeft}%`,
             width: `${stdRight - stdLeft}%`
@@ -99,7 +99,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
               >
                 {count > 0 && (
                   <div
-                    className="w-full max-w-3 bg-slate-600/60 rounded-t transition-all"
+                    className="w-full max-w-3 bg-foreground/40 rounded-t transition-all"
                     style={{ height: `${height}%` }}
                     title={`${count} risposte`}
                   />
@@ -119,7 +119,7 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
               return (
                 <div
                   key={i}
-                  className="absolute w-2.5 h-2.5 bg-slate-700 rounded-full border border-white shadow-sm transform -translate-x-1/2 -translate-y-1/2"
+                  className="absolute w-2.5 h-2.5 bg-foreground/70 rounded-full border border-white shadow-sm transform -translate-x-1/2 -translate-y-1/2"
                   style={{
                     left: `${position}%`,
                     top: `${jitter}%`
@@ -140,41 +140,41 @@ export const DistributionChart: React.FC<DistributionChartProps> = ({
         </div>
 
         {/* Center line */}
-        <div className="absolute top-0 bottom-0 left-1/2 w-px bg-slate-400/50 border-dashed" />
+        <div className="absolute top-0 bottom-0 left-1/2 w-px bg-border border-dashed" />
       </div>
 
       {/* Scale labels */}
-      <div className="flex justify-between text-xs text-slate-500 mb-3">
+      <div className="flex justify-between text-xs text-muted-foreground mb-3">
         <span>{pair.leftTerm}</span>
-        <span className="text-slate-400">Neutro</span>
+        <span className="text-muted-foreground/70">Neutro</span>
         <span>{pair.rightTerm}</span>
       </div>
 
       {/* Statistics */}
-      <div className="flex gap-4 pt-3 border-t border-slate-100">
+      <div className="flex gap-4 pt-3 border-t border-border">
         <div className="flex-1 text-center">
-          <div className="text-lg font-bold text-slate-800">
+          <div className="text-lg font-semibold text-foreground">
             {stats.mean > 0 ? '+' : ''}{stats.mean}
           </div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wide">Media</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-wide">Media</div>
         </div>
         <div className="flex-1 text-center">
-          <div className="text-lg font-bold text-slate-600">{stats.stdDev}</div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wide">Dev. Std</div>
+          <div className="text-lg font-semibold text-muted-foreground">{stats.stdDev}</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-wide">Dev. Std</div>
         </div>
         <div className="flex-1 text-center">
-          <div className="text-lg font-bold text-slate-600">{stats.median}</div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wide">Mediana</div>
+          <div className="text-lg font-semibold text-muted-foreground">{stats.median}</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-wide">Mediana</div>
         </div>
         <div className="flex-1 text-center">
-          <div className="text-lg font-bold text-slate-600">{stats.min} / {stats.max}</div>
-          <div className="text-[10px] text-slate-500 uppercase tracking-wide">Min / Max</div>
+          <div className="text-lg font-semibold text-muted-foreground">{stats.min} / {stats.max}</div>
+          <div className="text-xs text-muted-foreground uppercase tracking-wide">Min / Max</div>
         </div>
       </div>
 
       {/* Interpretation hint */}
-      <div className="mt-3 pt-3 border-t border-slate-100">
-        <p className="text-xs text-slate-500">
+      <div className="mt-3 pt-3 border-t border-border">
+        <p className="text-xs text-muted-foreground">
           {stats.mean < -15 ? (
             <span>Tendenza verso <strong className="text-emerald-600">{pair.leftTerm}</strong></span>
           ) : stats.mean > 15 ? (

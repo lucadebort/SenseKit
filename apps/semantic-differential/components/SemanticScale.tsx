@@ -92,10 +92,10 @@ export const SemanticScale: React.FC<SemanticScaleProps> = ({
     <div className={`w-full ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
       {/* Terms */}
       <div className="flex justify-between mb-3">
-        <span className="text-sm font-medium text-slate-700 max-w-[40%] truncate">
+        <span className="text-sm font-medium text-foreground max-w-[40%] truncate">
           {displayLeft}
         </span>
-        <span className="text-sm font-medium text-slate-700 max-w-[40%] truncate text-right">
+        <span className="text-sm font-medium text-foreground max-w-[40%] truncate text-right">
           {displayRight}
         </span>
       </div>
@@ -121,10 +121,10 @@ export const SemanticScale: React.FC<SemanticScaleProps> = ({
                   className={`
                     w-8 h-8 rounded-full border-2 transition-all
                     ${isSelected
-                      ? 'bg-blue-600 border-blue-600 scale-110'
+                      ? 'bg-primary border-primary scale-110'
                       : isMidpoint
-                        ? 'bg-slate-100 border-slate-300 hover:border-blue-400'
-                        : 'bg-white border-slate-200 hover:border-blue-400'
+                        ? 'bg-muted border-border hover:border-primary/60'
+                        : 'bg-background border-input hover:border-primary/60'
                     }
                   `}
                 >
@@ -135,7 +135,7 @@ export const SemanticScale: React.FC<SemanticScaleProps> = ({
                   )}
                 </div>
                 {showLabels && (
-                  <span className={`text-[10px] mt-1 ${isSelected ? 'text-blue-600 font-medium' : 'text-slate-400'}`}>
+                  <span className={`text-xs mt-1 ${isSelected ? 'text-primary font-medium' : 'text-muted-foreground/70'}`}>
                     {pointIndex + 1}
                   </span>
                 )}
@@ -154,11 +154,11 @@ export const SemanticScale: React.FC<SemanticScaleProps> = ({
           onTouchEnd={() => setIsDragging(false)}
         >
           {/* Track */}
-          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-2 bg-slate-200 rounded-full">
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-2 bg-input rounded-full">
             {/* Fill */}
             {value !== null && (
               <div
-                className="absolute h-full bg-blue-200 rounded-full"
+                className="absolute h-full bg-primary/30 rounded-full"
                 style={{
                   left: value < 50 ? `${value}%` : '50%',
                   right: value > 50 ? `${100 - value}%` : '50%'
@@ -168,13 +168,13 @@ export const SemanticScale: React.FC<SemanticScaleProps> = ({
           </div>
 
           {/* Midpoint marker */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-4 bg-slate-300 rounded" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-4 bg-border rounded" />
 
           {/* Thumb */}
           {value !== null && (
             <div
               className={`
-                absolute top-1/2 -translate-y-1/2 w-6 h-6 bg-blue-600 rounded-full
+                absolute top-1/2 -translate-y-1/2 w-6 h-6 bg-primary rounded-full
                 shadow-lg border-2 border-white transition-transform
                 ${isDragging ? 'scale-125' : ''}
               `}
@@ -184,7 +184,7 @@ export const SemanticScale: React.FC<SemanticScaleProps> = ({
 
           {/* Scale markers - 100 (left) - 0 (center) - 100 (right) */}
           {showLabels && (
-            <div className="absolute -bottom-5 left-0 right-0 flex justify-between text-[9px] text-slate-400">
+            <div className="absolute -bottom-5 left-0 right-0 flex justify-between text-xs text-muted-foreground/70">
               <span>100</span>
               <span>0</span>
               <span>100</span>

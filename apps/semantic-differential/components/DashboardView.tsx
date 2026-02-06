@@ -12,6 +12,7 @@ import {
 import { useMounted } from '../hooks/useMounted';
 import {
   Footer,
+  NavBar,
   Button,
   Input,
   Label,
@@ -28,6 +29,10 @@ import {
   TableRow,
   TableHead,
   TableCell,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   formatDateTime,
 } from '@sensekit/shared-ui';
 import { DistributionChart } from './DistributionChart';
@@ -45,6 +50,24 @@ interface DashboardViewProps {
 
 type TabType = 'overview' | 'sessions' | 'analysis' | 'settings';
 
+const brandIcon = (
+  <div className="w-8 h-8 bg-card rounded-full flex items-center justify-center shadow-sm border border-border">
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
+      <circle cx="8" cy="6" r="2" fill="#059669"/>
+      <circle cx="16" cy="12" r="2" fill="#059669"/>
+      <circle cx="10" cy="18" r="2" fill="#059669"/>
+    </svg>
+  </div>
+);
+
+const navTabs = [
+  { id: 'overview', label: 'Panoramica' },
+  { id: 'sessions', label: 'Sessioni' },
+  { id: 'analysis', label: 'Analisi' },
+  { id: 'settings', label: 'Impostazioni' },
+];
+
 export const DashboardView: React.FC<DashboardViewProps> = ({
   project,
   initialTab,
@@ -58,9 +81,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const [sessions, setSessions] = useState<Session[]>([]);
   const [activeTab, setActiveTab] = useState<TabType>((initialTab as TabType) || 'overview');
   const [isLoading, setIsLoading] = useState(true);
-
-  // Mobile menu
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Session creation
   const [showCreateSession, setShowCreateSession] = useState(false);
@@ -145,118 +165,37 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     onNavigate(`/projects/${slugify(project.name)}/${tab}`);
   };
 
-  const NavLink = ({ tab, label, mobile = false }: { tab: TabType; label: string; mobile?: boolean }) => (
-    <button
-      onClick={() => { switchTab(tab); if (mobile) setIsMobileMenuOpen(false); }}
-      className={`
-        ${mobile
-          ? 'w-full text-left px-4 py-3 border-l-4'
-          : 'h-full flex items-center px-2 text-sm font-medium border-b-[3px] pt-0.5'
-        }
-        transition-colors
-        ${activeTab === tab
-          ? (mobile ? 'bg-primary/10 border-primary text-primary' : 'border-primary text-primary')
-          : (mobile ? 'border-transparent text-muted-foreground hover:bg-muted/50' : 'border-transparent text-muted-foreground hover:text-foreground hover:border-border')
-        }
-      `}
-    >
-      {label}
-    </button>
-  );
+  const projectIcon = project.icon ? (
+    <div className="w-6 h-6 rounded bg-muted flex items-center justify-center overflow-hidden shrink-0">
+      <span className="text-sm">{project.icon}</span>
+    </div>
+  ) : undefined;
 
   if (isLoading) {
     return <LoadingScreen />;
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pb-20">
-      {/* HEADER */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur shadow-sm border-b border-border">
-        <div className="w-full max-w-7xl mx-auto px-6 h-12 flex justify-between items-center">
+    <div className="min-h-screen bg-background flex flex-col">
+      <NavBar
+        brand={{ name: 'SemDiff', icon: brandIcon, onClick: onBack }}
+        context={{ name: project.name, icon: projectIcon }}
+        tabs={navTabs}
+        activeTab={activeTab}
+        onTabChange={(id) => switchTab(id as TabType)}
+        actions={
+          <Button variant="ghost" size="sm" onClick={onLogout} className="text-xs font-medium text-muted-foreground hover:text-destructive uppercase tracking-wider">
+            Logout
+          </Button>
+        }
+      />
 
-          {/* Left: Brand & Context */}
-          <div className="flex items-center gap-4 md:gap-6 shrink-0">
-            <button onClick={onBack} className="flex items-center gap-3 group outline-none shrink-0" title="Torna ai Progetti">
-              <div className="w-8 h-8 bg-card rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm border border-border">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 6h16M4 12h16M4 18h16" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/>
-                  <circle cx="8" cy="6" r="2" fill="#059669"/>
-                  <circle cx="16" cy="12" r="2" fill="#059669"/>
-                  <circle cx="10" cy="18" r="2" fill="#059669"/>
-                </svg>
-              </div>
-              <span className="font-bold text-foreground text-lg tracking-tight group-hover:text-primary transition-colors">SemDiff</span>
-            </button>
-
-            <div className="h-6 w-px bg-border hidden sm:block"></div>
-
-            <div className="flex items-center gap-2 max-w-[150px] sm:max-w-[250px] hidden sm:flex">
-              {project.icon && (
-                <div className="w-6 h-6 rounded bg-muted flex items-center justify-center overflow-hidden shrink-0">
-                  <span className="text-sm">{project.icon}</span>
-                </div>
-              )}
-              <h1 className="text-sm font-bold text-muted-foreground truncate">{project.name}</h1>
-            </div>
-          </div>
-
-          {/* Center Navigation */}
-          <nav className="hidden md:flex items-center gap-8 h-full">
-            <NavLink tab="overview" label="Panoramica" />
-            <NavLink tab="sessions" label="Sessioni" />
-            <NavLink tab="analysis" label="Analisi" />
-            <NavLink tab="settings" label="Impostazioni" />
-          </nav>
-
-          {/* Right: Logout & Mobile Menu */}
-          <div className="flex items-center gap-4 shrink-0">
-            <button
-              onClick={onLogout}
-              className="text-xs font-bold text-muted-foreground hover:text-destructive uppercase tracking-wider transition-colors hidden md:block"
-            >
-              Logout
-            </button>
-
-            {/* Mobile Hamburger */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted/50"
-            >
-              {isMobileMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-card border-t border-border shadow-lg">
-            <NavLink tab="overview" label="Panoramica" mobile />
-            <NavLink tab="sessions" label="Sessioni" mobile />
-            <NavLink tab="analysis" label="Analisi" mobile />
-            <NavLink tab="settings" label="Impostazioni" mobile />
-            <div className="border-t border-border">
-              <button
-                onClick={onLogout}
-                className="w-full text-left px-4 py-3 text-destructive font-medium hover:bg-destructive/10"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Content - with padding-top for fixed header */}
-      <div className="max-w-7xl mx-auto px-6 py-6 mt-12 flex-1">
+      <main className="flex-1 w-full max-w-7xl mx-auto p-6 pb-20 pt-20">
         {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <StatCard label="Sessioni Totali" value={sessions.length} />
               <StatCard label="Completate" value={completedSessions.length} valueClassName="text-emerald-600" />
               <StatCard label="In Attesa" value={sessions.filter(s => s.status === 'created').length} />
@@ -266,7 +205,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {/* Quick Actions */}
             <Card>
               <CardContent className="p-6">
-                <h2 className="font-bold text-foreground mb-4">Azioni Rapide</h2>
+                <h2 className="font-semibold text-foreground mb-4">Azioni Rapide</h2>
                 <div className="flex flex-wrap gap-3">
                   <Button
                     onClick={() => { setShowCreateSession(true); setGeneratedLink(null); }}
@@ -288,8 +227,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             {/* Configuration Summary */}
             <Card>
               <CardContent className="p-6">
-                <h2 className="font-bold text-foreground mb-4">Configurazione</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <h2 className="font-semibold text-foreground mb-4">Configurazione</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
                   <div>
                     <p className="text-muted-foreground">Scala</p>
                     <p className="font-medium text-foreground">{project.config.scale.points} punti</p>
@@ -332,7 +271,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         {activeTab === 'sessions' && (
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="font-bold text-foreground">Sessioni ({sessions.length})</h2>
+              <h2 className="font-semibold text-foreground">Sessioni ({sessions.length})</h2>
               <Button
                 onClick={() => { setShowCreateSession(true); setGeneratedLink(null); }}
               >
@@ -430,7 +369,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 {/* Statistics Table */}
                 <Card className="overflow-hidden">
                   <div className="p-4 border-b border-border">
-                    <h2 className="font-bold text-foreground">Statistiche per Differenziale</h2>
+                    <h2 className="font-semibold text-foreground">Statistiche per Differenziale</h2>
                   </div>
                   <Table>
                     <TableHeader>
@@ -474,8 +413,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
                 {/* Distribution Charts per coppia */}
                 <div className="space-y-4">
-                  <h2 className="font-bold text-foreground">Distribuzione per Differenziale</h2>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <h2 className="font-semibold text-foreground">Distribuzione per Differenziale</h2>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {project.config.semanticPairs.map(pair => {
                       const stat = pairStats.find(s => s.pairId === pair.id);
                       if (!stat) return null;
@@ -496,7 +435,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 {/* Group Comparison */}
                 {groupStats.length > 1 && (
                   <Card className="p-6">
-                    <h2 className="font-bold text-foreground mb-4">Confronto Gruppi</h2>
+                    <h2 className="font-semibold text-foreground mb-4">Confronto Gruppi</h2>
                     <div className="overflow-x-auto">
                       <Table>
                         <TableHeader>
@@ -550,118 +489,110 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             onDelete={onBack}
           />
         )}
-      </div>
+      </main>
 
       <Footer appName="SemDiff" appDescription="a semantic differential tool" />
 
-      {/* Create Session Modal */}
-      {showCreateSession && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-card rounded-xl max-w-md w-full p-6">
-            <h3 className="text-lg font-bold text-foreground mb-4">
+      {/* Create Session Dialog */}
+      <Dialog open={showCreateSession} onOpenChange={setShowCreateSession}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>
               {generatedLink ? 'Link Generato' : 'Nuova Sessione'}
-            </h3>
+            </DialogTitle>
+          </DialogHeader>
 
-            {generatedLink ? (
-              <div className="space-y-4">
-                <div className="bg-background rounded-lg p-4">
-                  <p className="text-xs text-muted-foreground mb-2">Link partecipante:</p>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="text"
-                      readOnly
-                      value={generatedLink}
-                      className="flex-1"
-                    />
-                    <Button
-                      onClick={() => copyToClipboard(generatedLink)}
-                    >
-                      Copia
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex justify-end gap-3">
-                  <Button
-                    variant="secondary"
-                    onClick={() => setShowCreateSession(false)}
-                  >
-                    Chiudi
-                  </Button>
-                  <Button
-                    onClick={() => setGeneratedLink(null)}
-                  >
-                    Crea Altro
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-1 block">
-                    Nome Partecipante (opzionale)
-                  </Label>
+          {generatedLink ? (
+            <div className="space-y-4">
+              <div className="bg-background rounded-lg p-4">
+                <p className="text-xs text-muted-foreground mb-2">Link partecipante:</p>
+                <div className="flex items-center gap-2">
                   <Input
                     type="text"
-                    value={newParticipantName}
-                    onChange={(e) => setNewParticipantName(e.target.value)}
-                    placeholder="Es. Mario Rossi"
+                    readOnly
+                    value={generatedLink}
+                    className="flex-1"
                   />
-                </div>
-                <div>
-                  <Label className="mb-1 block">
-                    Gruppo (opzionale)
-                  </Label>
-                  <Input
-                    type="text"
-                    value={newGroupLabel}
-                    onChange={(e) => setNewGroupLabel(e.target.value)}
-                    placeholder="Es. Gruppo A, Marketing, Under 30"
-                  />
-                </div>
-                <div className="flex justify-end gap-3 pt-4">
                   <Button
-                    variant="secondary"
-                    onClick={() => setShowCreateSession(false)}
+                    onClick={() => copyToClipboard(generatedLink)}
                   >
-                    Annulla
-                  </Button>
-                  <Button
-                    onClick={handleCreateSession}
-                    isLoading={isCreating}
-                  >
-                    {isCreating ? 'Creazione...' : 'Genera Link'}
+                    Copia
                   </Button>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Session Viewer Modal */}
-      {viewingSession && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-card rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-border flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-foreground">
-                  {viewingSession.participantName || 'Partecipante Anonimo'}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {viewingSession.groupLabel && `${viewingSession.groupLabel} • `}
-                  {formatDateTime(viewingSession.completedAt || viewingSession.createdAt)}
-                </p>
+              <div className="flex justify-end gap-3">
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowCreateSession(false)}
+                >
+                  Chiudi
+                </Button>
+                <Button
+                  onClick={() => setGeneratedLink(null)}
+                >
+                  Crea Altro
+                </Button>
               </div>
-              <button
-                onClick={() => setViewingSession(null)}
-                className="p-2 text-muted-foreground hover:text-foreground"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
             </div>
-            <div className="p-6 space-y-4">
+          ) : (
+            <div className="space-y-4">
+              <div>
+                <Label className="mb-1 block">
+                  Nome Partecipante (opzionale)
+                </Label>
+                <Input
+                  type="text"
+                  value={newParticipantName}
+                  onChange={(e) => setNewParticipantName(e.target.value)}
+                  placeholder="Es. Mario Rossi"
+                />
+              </div>
+              <div>
+                <Label className="mb-1 block">
+                  Gruppo (opzionale)
+                </Label>
+                <Input
+                  type="text"
+                  value={newGroupLabel}
+                  onChange={(e) => setNewGroupLabel(e.target.value)}
+                  placeholder="Es. Gruppo A, Marketing, Under 30"
+                />
+              </div>
+              <div className="flex justify-end gap-3 pt-4">
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowCreateSession(false)}
+                >
+                  Annulla
+                </Button>
+                <Button
+                  onClick={handleCreateSession}
+                  isLoading={isCreating}
+                >
+                  {isCreating ? 'Creazione...' : 'Genera Link'}
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Session Viewer Dialog */}
+      <Dialog open={!!viewingSession} onOpenChange={(open) => { if (!open) setViewingSession(null); }}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {viewingSession?.participantName || 'Partecipante Anonimo'}
+            </DialogTitle>
+            {viewingSession && (
+              <p className="text-sm text-muted-foreground">
+                {viewingSession.groupLabel && `${viewingSession.groupLabel} • `}
+                {formatDateTime(viewingSession.completedAt || viewingSession.createdAt)}
+              </p>
+            )}
+          </DialogHeader>
+          {viewingSession && (
+            <div className="space-y-4">
               {viewingSession.responses.map(resp => {
                 const pair = project.config.semanticPairs.find(p => p.id === resp.pairId);
                 if (!pair) return null;
@@ -690,9 +621,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 );
               })}
             </div>
-          </div>
-        </div>
-      )}
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
