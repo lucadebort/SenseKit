@@ -1,15 +1,16 @@
 {
   "name": "sensekit",
   "private": true,
+  "packageManager": "pnpm@10.25.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "dev:stake": "pnpm --filter stake-mapping dev",
-    "dev:semdiff": "pnpm --filter semantic-differential dev",
-    "build:stake": "pnpm --filter stake-mapping build",
-    "build:semdiff": "pnpm --filter semantic-differential build",
+    "dev:stake": "pnpm --filter @sensekit/stake-mapping dev",
+    "dev:semdiff": "pnpm --filter @sensekit/semantic-differential dev",
+    "build:stake": "pnpm --filter @sensekit/stake-mapping build",
+    "build:semdiff": "pnpm --filter @sensekit/semantic-differential build",
     "build:all": "pnpm -r build"
   },
   "devDependencies": {
