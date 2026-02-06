@@ -5,14 +5,14 @@ import { cn } from "../../lib/utils";
 /* ─── Toast variant styles ─── */
 
 const toastVariants = cva(
-  "pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-lg border p-4 shadow-lg transition-all",
+  "pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-lg border p-4 shadow-md transition-all",
   {
     variants: {
       variant: {
         default: "border-border bg-background text-foreground",
-        success: "border-emerald-200 bg-emerald-50 text-emerald-900",
-        destructive: "border-red-200 bg-red-50 text-red-900",
-        warning: "border-amber-200 bg-amber-50 text-amber-900",
+        success: "border-emerald-100 bg-emerald-50 text-emerald-900",
+        destructive: "border-red-100 bg-red-50 text-red-900",
+        warning: "border-amber-100 bg-amber-50 text-amber-900",
       },
     },
     defaultVariants: {
@@ -108,7 +108,7 @@ function Toaster() {
           )}
         >
           <div className="flex-1">
-            <p className="text-sm font-bold">{t.title}</p>
+            <p className="text-sm font-medium">{t.title}</p>
             {t.description && (
               <p className="mt-1 text-xs opacity-80">{t.description}</p>
             )}

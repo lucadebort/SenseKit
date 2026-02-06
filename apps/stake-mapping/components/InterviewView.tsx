@@ -5,6 +5,7 @@ import { DraggableToken } from './DraggableToken';
 import { Project, StakeholderData, Coordinates, InterviewSession } from '../types';
 import { BOARD_SIZE, TOKEN_RADIUS, getThemeAccent } from '../constants';
 import { updateSession, downloadSvg, normalizeDistance, getImpactScore } from '../utils';
+import { Button, StatusBadge, type SessionStatus, formatDateTime } from '@sensekit/shared-ui';
 
 interface InterviewViewProps {
   session: InterviewSession;
@@ -14,14 +15,6 @@ interface InterviewViewProps {
   isEmbedded?: boolean; 
   enableDownload?: boolean; 
 }
-
-const formatDateTime = (ts?: number) => {
-    if(!ts) return '-';
-    return new Date(ts).toLocaleString('it-IT', { 
-        day: '2-digit', month: '2-digit', year: 'numeric',
-        hour: '2-digit', minute: '2-digit', hour12: false
-    });
-};
 
 export const InterviewView: React.FC<InterviewViewProps> = ({ 
     session, 
@@ -292,17 +285,17 @@ export const InterviewView: React.FC<InterviewViewProps> = ({
   };
 
   // UI RENDER
-  const containerClass = isEmbedded 
-    ? "relative w-full h-full flex flex-col bg-white overflow-hidden" 
-    : "fixed inset-0 flex flex-col bg-white overflow-hidden font-sans";
+  const containerClass = isEmbedded
+    ? "relative w-full h-full flex flex-col bg-card overflow-hidden"
+    : "fixed inset-0 flex flex-col bg-card overflow-hidden font-sans";
 
   return (
     <div className={containerClass}>
       {!readOnlyOverride && (
-          <header className="shrink-0 h-14 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-20">
+          <header className="shrink-0 h-14 bg-card border-b border-border flex items-center justify-between px-6 z-20">
               <div className="flex items-center gap-3">
-                  <h1 className="text-sm font-bold text-slate-800 uppercase tracking-wider">{project.name}</h1>
-                  <span className="text-slate-300">|</span>
+                  <h1 className="text-sm font-semibold text-foreground uppercase tracking-wider">{project.name}</h1>
+                  <span className="text-muted-foreground/40">|</span>
                   <span 
                     className="text-xs font-bold px-2 py-0.5 rounded"
                     style={{ 
@@ -327,8 +320,8 @@ export const InterviewView: React.FC<InterviewViewProps> = ({
             - We use transition-all to animate the collapse.
           */}
           <aside className={`
-              shrink-0 bg-white border-slate-200 z-30 
-              flex flex-col 
+              shrink-0 bg-card border-border z-30
+              flex flex-col
               border-b md:border-b-0 md:border-r
               shadow-sm md:shadow-[4px_0_24px_-12px_rgba(0,0,0,0.1)]
               transition-all duration-1000 ease-in-out
@@ -339,40 +332,36 @@ export const InterviewView: React.FC<InterviewViewProps> = ({
                   <div className="flex flex-col h-auto md:h-full md:overflow-y-auto">
                       
                       {/* 1. SESSION INFO ACCORDION */}
-                      <div className="border-b border-slate-100 md:border-none shrink-0 bg-white">
-                          <button 
+                      <div className="border-b border-border/50 md:border-none shrink-0 bg-card">
+                          <button
                               onClick={() => setIsInfoOpen(!isInfoOpen)}
-                              className="w-full flex items-center justify-between px-4 py-3 md:hidden bg-slate-50 hover:bg-slate-100 transition-colors"
+                              className="w-full flex items-center justify-between px-4 py-3 md:hidden bg-secondary hover:bg-accent transition-colors"
                           >
-                              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Session Info</span>
-                              <svg className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${isInfoOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Session Info</span>
+                              <svg className={`w-4 h-4 text-muted-foreground/70 transition-transform duration-200 ${isInfoOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                           </button>
-                          
-                          <div className={`${isInfoOpen ? 'block' : 'hidden'} md:block p-4 border-t border-slate-100 md:border-t-0 animate-fade-in`}>
-                              <div className="border border-slate-200 rounded-lg p-3 bg-white">
-                                  <h3 className="hidden md:block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+
+                          <div className={`${isInfoOpen ? 'block' : 'hidden'} md:block p-4 border-t border-border/50 md:border-t-0 animate-fade-in`}>
+                              <div className="border border-border rounded-lg p-3 bg-card">
+                                  <h3 className="hidden md:block text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest mb-3">
                                       SESSION INFO
                                   </h3>
                                   <div className="space-y-2 text-xs">
                                       <div className="flex justify-between">
-                                          <span className="text-slate-500">ID</span>
-                                          <span className="font-mono font-bold text-slate-700 break-all">{session.sessionId}</span>
+                                          <span className="text-muted-foreground">ID</span>
+                                          <span className="font-mono font-bold text-foreground break-all">{session.sessionId}</span>
                                       </div>
                                       <div className="flex justify-between">
-                                          <span className="text-slate-500">Created</span>
-                                          <span className="text-slate-700">{formatDateTime(session.createdAt)}</span>
+                                          <span className="text-muted-foreground">Created</span>
+                                          <span className="text-foreground">{formatDateTime(session.createdAt)}</span>
                                       </div>
                                       <div className="flex justify-between">
-                                          <span className="text-slate-500">Submitted</span>
-                                          <span className="text-slate-700">{session.submittedAt ? formatDateTime(session.submittedAt) : '-'}</span>
+                                          <span className="text-muted-foreground">Submitted</span>
+                                          <span className="text-foreground">{session.submittedAt ? formatDateTime(session.submittedAt) : '-'}</span>
                                       </div>
                                       <div className="flex justify-between items-center pt-1">
-                                          <span className="text-slate-500">Status</span>
-                                          {session.status === 'completed' ? (
-                                             <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Completed</span>
-                                          ) : (
-                                             <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Pending</span>
-                                          )}
+                                          <span className="text-muted-foreground">Status</span>
+                                          <StatusBadge status={session.status as SessionStatus} className="text-[10px]" />
                                       </div>
                                   </div>
                               </div>
@@ -430,13 +419,15 @@ export const InterviewView: React.FC<InterviewViewProps> = ({
 
                                {enableDownload && (
                                     <div className="pt-4 shrink-0">
-                                         <button 
+                                         <Button
+                                            variant="outline"
+                                            size="sm"
                                             onClick={() => handleDownload(svgRef)}
-                                            className="w-full flex items-center justify-center gap-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 py-2 rounded-lg text-xs font-bold transition-colors shadow-sm"
-                                            >
-                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                            className="w-full"
+                                         >
+                                            <svg className="w-3.5 h-3.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                                             DOWNLOAD MAP
-                                        </button>
+                                         </Button>
                                     </div>
                                )}
                           </div>
@@ -610,11 +601,11 @@ export const InterviewView: React.FC<InterviewViewProps> = ({
                   {!readOnlyOverride && !isSubmitted && (
                       <>
                           {activeTab === 'relationship' ? (
-                                <button onClick={() => setActiveTab('centrality')} disabled={unplacedCount > 0} className="bg-slate-800 text-white px-4 py-2 text-sm rounded-lg font-bold disabled:opacity-50">Next: Impact →</button>
+                                <Button onClick={() => setActiveTab('centrality')} disabled={unplacedCount > 0}>Next: Impact →</Button>
                           ) : (
                                 <>
-                                    <button onClick={() => setActiveTab('relationship')} className="text-slate-500 font-bold text-xs px-3">← Back</button>
-                                    <button onClick={handleSubmit} disabled={unplacedCount > 0 || isSaving} className="bg-blue-600 text-white px-4 py-2 text-sm rounded-lg font-bold disabled:opacity-50">{isSaving ? 'Saving...' : 'Finish'}</button>
+                                    <Button variant="ghost" size="sm" onClick={() => setActiveTab('relationship')}>← Back</Button>
+                                    <Button onClick={handleSubmit} disabled={unplacedCount > 0 || isSaving} isLoading={isSaving}>Finish</Button>
                                 </>
                           )}
                       </>

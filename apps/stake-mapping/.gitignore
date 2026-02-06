@@ -81,3 +81,5 @@ typings/
 # Vite build output
 dist
 .claude/
+.vercel
+.env*.local

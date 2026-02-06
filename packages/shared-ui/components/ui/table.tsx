@@ -44,7 +44,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "border-b border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+      "border-b border-border transition-colors hover:bg-accent/50 data-[state=selected]:bg-muted",
       className
     )}
     {...props}
@@ -59,7 +59,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-10 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+      "h-9 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
       className
     )}
     {...props}
@@ -166,7 +166,7 @@ function DataTable<T>({
             <TableHead
               key={col.key}
               className={cn(
-                "text-xs font-bold uppercase tracking-wide",
+                "text-xs font-medium uppercase tracking-wide",
                 alignClasses[col.align || "left"],
                 col.sortable && onSort && "cursor-pointer select-none"
               )}

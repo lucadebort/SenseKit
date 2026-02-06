@@ -7,6 +7,9 @@ export { Separator } from './ui/separator';
 // ─── Form Components ───
 export { Input, type InputProps } from './ui/input';
 export { Textarea, type TextareaProps } from './ui/textarea';
+export { SearchInput, type SearchInputProps } from './ui/search-input';
+export { Checkbox, type CheckboxProps } from './ui/checkbox';
+export { Label, labelVariants, type LabelProps } from './ui/label';
 export {
   Select,
   SelectGroup,
@@ -46,6 +49,10 @@ export {
   TooltipProvider,
 } from './ui/tooltip';
 
+// ─── Feedback ───
+export { Alert, alertVariants, type AlertProps } from './ui/alert';
+export { Toaster, useToast, toast, toastVariants, type Toast, type ToastVariant } from './ui/toast';
+
 // ─── Data Display ───
 export {
   Card,
@@ -68,9 +75,13 @@ export {
   type DataTableProps,
   type SortIconProps,
 } from './ui/table';
+export { StatCard, type StatCardProps } from './ui/stat-card';
 export { EmptyState, type EmptyStateProps } from './ui/empty-state';
-export { Toaster, useToast, toast, toastVariants, type Toast, type ToastVariant } from './ui/toast';
+export { ToggleGroup, type ToggleGroupProps, type ToggleGroupItem } from './ui/toggle-group';
+export { LoadingScreen, type LoadingScreenProps } from './ui/loading-screen';
 
 // ─── Layout ───
 export { NavBar, type NavBarProps, type NavTab } from './layout/navbar';
 export { Footer, type FooterProps } from './layout/footer';
+export { PageContainer } from './layout/page-container';
+export { LoginScreen, type LoginScreenProps } from './layout/login-screen';

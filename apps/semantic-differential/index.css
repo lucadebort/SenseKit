@@ -9,13 +9,7 @@
     overflow-y: scroll;
   }
   body {
-    @apply bg-slate-50 text-slate-800;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -33,10 +27,11 @@
     background: transparent;
   }
   .scrollbar-thumb-slate-200::-webkit-scrollbar-thumb {
-    @apply bg-slate-200 rounded-full;
+    background: hsl(var(--border));
+    border-radius: 9999px;
   }
   .scrollbar-thumb-slate-200::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-300;
+    background: hsl(var(--muted-foreground) / 0.3);
   }
 }
 

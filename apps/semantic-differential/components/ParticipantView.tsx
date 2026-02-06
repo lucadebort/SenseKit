@@ -3,6 +3,7 @@ import { Session, Project, DifferentialResponse } from '../types';
 import { updateSessionResponses, generateFlipPattern, normalizeValue } from '../utils';
 import { useMounted } from '../hooks/useMounted';
 import { SemanticScale } from './SemanticScale';
+import { Button } from '@sensekit/shared-ui';
 
 interface ParticipantViewProps {
   session: Session;
@@ -128,14 +129,14 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
   // COMPLETION SCREEN
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
         <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center shadow-sm mb-6 border border-emerald-100">
           <svg className="w-10 h-10 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-slate-800 mb-2">Grazie!</h1>
-        <p className="text-slate-500 text-sm max-w-sm mx-auto leading-relaxed">
+        <h1 className="text-2xl font-bold text-foreground mb-2">Grazie!</h1>
+        <p className="text-muted-foreground text-sm max-w-sm mx-auto leading-relaxed">
           Le tue risposte sono state registrate con successo.
         </p>
       </div>
@@ -145,27 +146,24 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
   // INSTRUCTIONS SCREEN
   if (showInstructions && instructions) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6">
-        <div className="bg-white rounded-2xl max-w-lg w-full p-8 shadow-sm border border-slate-100">
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+        <div className="bg-card rounded-2xl max-w-lg w-full p-8 shadow-sm border border-border/50">
           <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h1 className="text-xl font-bold text-slate-800 mb-2">Istruzioni</h1>
+            <h1 className="text-xl font-bold text-foreground mb-2">Istruzioni</h1>
           </div>
 
           <div className="prose prose-sm prose-slate max-w-none mb-6">
-            <p className="text-slate-600 whitespace-pre-wrap">{instructions}</p>
+            <p className="text-muted-foreground whitespace-pre-wrap">{instructions}</p>
           </div>
 
-          <button
-            onClick={() => setShowInstructions(false)}
-            className="w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors"
-          >
+          <Button className="w-full" onClick={() => setShowInstructions(false)}>
             Inizia
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -173,13 +171,13 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
 
   // MAIN QUESTIONNAIRE
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header - Progress bar only */}
-      <div className="bg-white border-b border-slate-200 px-6 py-3">
+      <div className="bg-card border-b border-border px-6 py-3">
         <div className="max-w-2xl mx-auto">
-          <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-accent rounded-full overflow-hidden">
             <div
-              className="h-full bg-blue-600 rounded-full transition-all duration-300"
+              className="h-full bg-primary rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -188,13 +186,13 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
 
       {/* Content */}
       <div className="flex-1 flex items-center justify-center p-6">
-        <div className="bg-white rounded-2xl max-w-2xl w-full p-8 shadow-sm border border-slate-100">
+        <div className="bg-card rounded-2xl max-w-2xl w-full p-8 shadow-sm border border-border/50">
           {currentPair && (
             <div className="space-y-8">
               {/* Main question (if provided) */}
               {question && (
                 <div className="text-center">
-                  <p className="text-slate-700 font-medium">{question}</p>
+                  <p className="text-foreground font-medium">{question}</p>
                 </div>
               )}
 
@@ -211,7 +209,7 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
               />
 
               {/* Hint */}
-              <p className="text-xs text-slate-400 text-center">
+              <p className="text-xs text-muted-foreground/70 text-center">
                 {scale.mode === 'discrete'
                   ? 'Seleziona il punto che meglio rappresenta la tua posizione'
                   : 'Trascina il cursore per indicare la tua posizione'
@@ -223,15 +221,11 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
       </div>
 
       {/* Navigation */}
-      <div className="bg-white border-t border-slate-200 px-6 py-4">
+      <div className="bg-card border-t border-border px-6 py-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
-          <button
-            onClick={goToPrev}
-            disabled={currentIndex === 0}
-            className="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <Button variant="secondary" size="sm" onClick={goToPrev} disabled={currentIndex === 0}>
             Precedente
-          </button>
+          </Button>
 
           {/* Quick nav dots */}
           <div className="flex gap-1 overflow-x-auto max-w-[200px]">
@@ -246,10 +240,10 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
                   className={`
                     w-2 h-2 rounded-full flex-shrink-0 transition-all
                     ${isCurrent
-                      ? 'bg-blue-600 w-4'
+                      ? 'bg-primary w-4'
                       : hasResponse
                         ? 'bg-emerald-400'
-                        : 'bg-slate-200'
+                        : 'bg-accent'
                     }
                   `}
                 />
@@ -258,20 +252,13 @@ export const ParticipantView: React.FC<ParticipantViewProps> = ({
           </div>
 
           {currentIndex === semanticPairs.length - 1 ? (
-            <button
-              onClick={handleSubmit}
-              disabled={!allAnswered || isSubmitting}
-              className="px-6 py-2 text-sm font-bold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Invio...' : 'Invia Risposte'}
-            </button>
+            <Button onClick={handleSubmit} disabled={!allAnswered || isSubmitting} isLoading={isSubmitting} className="bg-emerald-600 hover:bg-emerald-700">
+              Invia Risposte
+            </Button>
           ) : (
-            <button
-              onClick={goToNext}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-            >
+            <Button onClick={goToNext}>
               Successiva
-            </button>
+            </Button>
           )}
         </div>
       </div>

@@ -1,52 +1,54 @@
-// Design Tokens - Shared across all Etnograph tools
+// Design Tokens - Shared across all SenseKit tools
+// DEPRECATED: Prefer using CSS variables from styles/globals.css directly.
+// These tokens map to semantic Tailwind classes based on CSS variables.
 
 export const COLORS = {
   primary: {
-    50: 'bg-blue-50',
-    100: 'bg-blue-100',
-    600: 'bg-blue-600',
-    700: 'bg-blue-700',
-    text: 'text-blue-600',
-    textHover: 'hover:text-blue-600',
-    border: 'border-blue-600',
+    50: 'bg-primary/5',
+    100: 'bg-primary/10',
+    600: 'bg-primary',
+    700: 'bg-primary/90',
+    text: 'text-primary',
+    textHover: 'hover:text-primary',
+    border: 'border-primary',
   },
   slate: {
-    50: 'bg-slate-50',
-    100: 'bg-slate-100',
-    200: 'bg-slate-200',
+    50: 'bg-secondary',
+    100: 'bg-accent',
+    200: 'bg-accent',
     text: {
-      400: 'text-slate-400',
-      500: 'text-slate-500',
-      600: 'text-slate-600',
-      700: 'text-slate-700',
-      800: 'text-slate-800',
+      400: 'text-muted-foreground/70',
+      500: 'text-muted-foreground',
+      600: 'text-muted-foreground',
+      700: 'text-foreground',
+      800: 'text-foreground',
     },
-    border: 'border-slate-200',
+    border: 'border-border',
   },
   success: {
-    bg: 'bg-emerald-100',
+    bg: 'bg-emerald-50',
     text: 'text-emerald-700',
   },
   warning: {
-    bg: 'bg-amber-100',
+    bg: 'bg-amber-50',
     text: 'text-amber-700',
   },
   danger: {
     bg: 'bg-red-50',
-    bgSolid: 'bg-red-600',
-    text: 'text-red-600',
-    textHover: 'hover:text-red-600',
+    bgSolid: 'bg-destructive',
+    text: 'text-destructive',
+    textHover: 'hover:text-destructive',
   },
 } as const;
 
 export const SPACING = {
   button: {
-    sm: 'px-2 py-1',
+    sm: 'px-3 py-1',
     md: 'px-4 py-2',
-    lg: 'px-6 py-3',
+    lg: 'px-5 py-3',
   },
   container: {
-    page: 'px-6',
+    page: 'px-4 sm:px-6',
     card: 'p-6',
   },
 } as const;
@@ -62,23 +64,23 @@ export const LAYOUT = {
     '6xl': 'max-w-6xl',
     '7xl': 'max-w-7xl',
   },
-  container: 'max-w-7xl mx-auto px-6',
+  container: 'max-w-7xl mx-auto px-4 sm:px-6',
 } as const;
 
 export const ROUNDED = {
-  sm: 'rounded-lg',
-  md: 'rounded-xl',
-  lg: 'rounded-2xl',
+  sm: 'rounded-md',
+  md: 'rounded-lg',
+  lg: 'rounded-xl',
   full: 'rounded-full',
 } as const;
 
 export const SHADOWS = {
-  sm: 'shadow-sm',
-  md: 'shadow-md',
-  lg: 'shadow-lg',
-  xl: 'shadow-xl',
-  '2xl': 'shadow-2xl',
-  footer: 'shadow-[0_-2px_10px_rgba(0,0,0,0.02)]',
+  sm: 'shadow-none',
+  md: 'shadow-sm',
+  lg: 'shadow-sm',
+  xl: 'shadow-md',
+  '2xl': 'shadow-md',
+  footer: 'shadow-none',
 } as const;
 
 export const Z_INDEX = {
@@ -89,7 +91,7 @@ export const Z_INDEX = {
 } as const;
 
 export const TRANSITIONS = {
-  colors: 'transition-colors',
-  all: 'transition-all',
-  transform: 'transition-transform',
+  colors: 'transition-colors duration-150',
+  all: 'transition-all duration-150',
+  transform: 'transition-transform duration-150',
 } as const;

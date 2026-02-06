@@ -10,7 +10,7 @@ export interface NavBarProps {
   brand: {
     name: string;
     icon?: React.ReactNode;
-    onClick: () => void;
+    onClick?: () => void;
   };
   context?: {
     name: string;
@@ -33,18 +33,25 @@ function NavBar({
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
           {/* Left: Brand + Context */}
           <div className="flex items-center gap-3 min-w-0">
-            <button
-              onClick={brand.onClick}
-              className="flex items-center gap-2 font-bold text-foreground hover:text-primary transition-colors shrink-0"
-            >
-              {brand.icon}
-              <span className="text-sm">{brand.name}</span>
-            </button>
+            {brand.onClick ? (
+              <button
+                onClick={brand.onClick}
+                className="flex items-center gap-2 font-semibold text-foreground hover:text-foreground/80 transition-colors shrink-0"
+              >
+                {brand.icon}
+                <span className="text-sm">{brand.name}</span>
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 font-semibold text-foreground shrink-0">
+                {brand.icon}
+                <span className="text-sm">{brand.name}</span>
+              </div>
+            )}
 
             {context && (
               <>

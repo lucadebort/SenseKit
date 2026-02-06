@@ -1,51 +1,66 @@
 @layer base {
   :root {
-    /* Background */
-    --background: 210 40% 98%;
-    --foreground: 215 25% 27%;
+    /* Background: Notion white */
+    --background: 0 0% 100%;
+    --foreground: 40 10% 20%;
 
     /* Card */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    --card-foreground: 40 10% 20%;
 
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover-foreground: 40 10% 20%;
 
-    /* Primary (blue-600) */
-    --primary: 221 83% 53%;
+    /* Primary: Notion blue #2383E2 */
+    --primary: 211 74% 51%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary (slate-100) */
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 215 16% 47%;
+    /* Secondary: Notion light gray #F7F6F3 */
+    --secondary: 40 14% 96%;
+    --secondary-foreground: 40 6% 45%;
 
     /* Muted */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 40 14% 96%;
+    --muted-foreground: 40 6% 45%;
 
-    /* Accent */
-    --accent: 210 40% 96%;
-    --accent-foreground: 215 25% 27%;
+    /* Accent: Notion hover #F1F1EF */
+    --accent: 40 6% 94%;
+    --accent-foreground: 40 10% 20%;
 
-    /* Destructive (red-600) */
-    --destructive: 0 72% 51%;
+    /* Destructive: Notion red #EB5757 */
+    --destructive: 0 78% 63%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Success (emerald-600) */
-    --success: 160 84% 39%;
+    /* Success: Notion green #4DAB9A */
+    --success: 168 38% 49%;
     --success-foreground: 0 0% 100%;
 
-    /* Warning (amber-500) */
-    --warning: 38 92% 50%;
+    /* Warning: Notion amber #CB912F */
+    --warning: 37 64% 49%;
     --warning-foreground: 0 0% 100%;
 
     /* Border & Input */
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    --border: 36 12% 89%;
+    --input: 36 12% 86%;
+    --ring: 211 74% 51%;
 
     /* Radius */
     --radius: 0.5rem;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    font-family: 'Inter', ui-sans-serif, -apple-system, BlinkMacSystemFont,
+      'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    color: hsl(var(--foreground));
+    background: hsl(var(--background));
   }
 }

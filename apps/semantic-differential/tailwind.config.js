@@ -45,6 +45,9 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
       },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'system-ui', 'sans-serif'],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

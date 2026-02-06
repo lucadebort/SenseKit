@@ -10,7 +10,7 @@ function Footer({ appName, appDescription, className }: FooterProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-0 left-0 right-0 py-2 bg-background/95 backdrop-blur-sm border-t border-border flex items-center justify-center px-4 z-[100] text-[10px] text-muted-foreground shadow-[0_-2px_10px_rgba(0,0,0,0.02)]",
+        "fixed bottom-0 left-0 right-0 py-2 bg-background border-t border-border flex items-center justify-center px-4 z-[100] text-[10px] text-muted-foreground",
         className
       )}
     >
@@ -26,7 +26,7 @@ function Footer({ appName, appDescription, className }: FooterProps) {
             href="https://etnograph.com"
             target="_blank"
             rel="noreferrer"
-            className="font-bold hover:text-primary transition-colors"
+            className="font-semibold hover:text-primary transition-colors"
           >
             Etnograph
           </a>

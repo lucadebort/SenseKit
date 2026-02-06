@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@sensekit/shared-ui';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -24,25 +25,22 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   render() {
     if (this.state.hasError) {
       return this.props.fallback || (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="min-h-screen flex items-center justify-center bg-background">
           <div className="text-center p-8 max-w-md">
             <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
-            <h1 className="text-xl font-bold text-slate-800 mb-2">
+            <h1 className="text-xl font-semibold text-foreground mb-2">
               Si e verificato un errore
             </h1>
-            <p className="text-slate-500 text-sm mb-4">
+            <p className="text-muted-foreground text-sm mb-4">
               {this.state.error?.message || 'Errore sconosciuto'}
             </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
+            <Button onClick={() => window.location.reload()}>
               Ricarica pagina
-            </button>
+            </Button>
           </div>
         </div>
       );
