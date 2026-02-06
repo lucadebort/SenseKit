@@ -1,4 +1,5 @@
-// Main entry point for shared-ui
+// Lib
+export { cn } from './lib/utils';
 
 // Components
 export * from './components';
@@ -6,5 +7,5 @@ export * from './components';
 // Utils
 export * from './utils/formatters';
 
-// Tokens
+// Tokens (deprecated - use CSS variables from styles/globals.css)
 export * from './tokens/design-tokens';

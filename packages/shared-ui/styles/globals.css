@@ -1,0 +1,51 @@
+@layer base {
+  :root {
+    /* Background */
+    --background: 210 40% 98%;
+    --foreground: 215 25% 27%;
+
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    /* Primary (blue-600) */
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary (slate-100) */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 215 16% 47%;
+
+    /* Muted */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent */
+    --accent: 210 40% 96%;
+    --accent-foreground: 215 25% 27%;
+
+    /* Destructive (red-600) */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success (emerald-600) */
+    --success: 160 84% 39%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning (amber-500) */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Border & Input */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+
+    /* Radius */
+    --radius: 0.5rem;
+  }
+}

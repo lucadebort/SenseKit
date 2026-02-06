@@ -1,11 +1,22 @@
 {
   "name": "@sensekit/shared-ui",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Shared UI components for SenseKit tools",
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.6.0",
+    "class-variance-authority": "^0.7.1",
+    "@radix-ui/react-dialog": "^1.1.4",
+    "@radix-ui/react-dropdown-menu": "^2.1.4",
+    "@radix-ui/react-select": "^2.1.4",
+    "@radix-ui/react-tooltip": "^1.1.6",
+    "@radix-ui/react-slot": "^1.1.1",
+    "@radix-ui/react-visually-hidden": "^1.1.1"
   },
   "peerDependencies": {
     "react": "^18.0.0",
@@ -18,7 +29,7 @@
   "keywords": [
     "ui",
     "components",
-    "etnograph",
+    "sensekit",
     "react"
   ],
   "author": "Luca De Bortoli",
