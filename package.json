@@ -11,6 +11,10 @@
     "dev:semdiff": "pnpm --filter @sensekit/semantic-differential dev",
     "build:stake": "pnpm --filter @sensekit/stake-mapping build",
     "build:semdiff": "pnpm --filter @sensekit/semantic-differential build",
+    "dev:compscape": "pnpm --filter @sensekit/comp-scape dev",
+    "build:compscape": "pnpm --filter @sensekit/comp-scape build",
+    "dev:website": "pnpm --filter @sensekit/website dev",
+    "build:website": "pnpm --filter @sensekit/website build",
     "build:all": "pnpm -r build"
   },
   "devDependencies": {
